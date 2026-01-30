@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Zyrex Panel</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Exo+2:wght@300;500&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+<style>
+:root{
+  --core-purple:#8A2BE2;--plasma-pink:#FF00FF;--cyber-teal:#00FFF0;
+  --matrix-green:#00FF9D;--warning-orange:#FF6B00;
+  --void-black:#0A001A;--font-primary:'Orbitron', monospace;
+  --font-secondary:'Exo 2', sans-serif;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{
+  font-family:var(--font-secondary);background:var(--void-black);
+  color:#E6E6FA;min-height:100vh;overflow:hidden;
+  display:flex;justify-content:center;align-items:center;
+}
+
+/* ===== BACKGROUND ===== */
+#quantum-field{
+  position:fixed;inset:0;
+  background:
+    radial-gradient(circle at 20% 30%, rgba(138,43,226,.15), transparent 40%),
+    radial-gradient(circle at 80% 70%, rgba(255,0,255,.1), transparent 40%),
+    linear-gradient(135deg,#0A001A,#1A0B2E,#0A001A);
+  z-index:-3;
+}
+#nexus-grid{
+  position:fixed;inset:0;
+  background-image:
+    linear-gradient(rgba(157,0,255,.3) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(157,0,255,.3) 1px, transparent 1px);
+  background-size:50px 50px;opacity:.3;z-index:-2;
+}
+canvas{position:fixed;inset:0;z-index:-1}
+
+/* ===== CORE UI ===== */
+.nexus-container{display:flex;justify-content:center;align-items:center;min-height:100vh;padding:20px;width:100%}
+.quantum-card{
+  width:100%;max-width:320px;background:rgba(26,11,46,.9);
+  backdrop-filter:blur(15px);border-radius:18px;padding:25px;
+  border:1px solid rgba(138,43,226,.5);
+  box-shadow:0 4px 25px rgba(138,43,226,.25);
+  animation:fadeIn 1s ease;
+}
+.profile-nexus{text-align:center;margin-bottom:15px}
+.nexus-avatar{
+  width:100px;height:100px;border-radius:50%;margin:auto;padding:2px;
+  background:linear-gradient(45deg,var(--core-purple),var(--plasma-pink));
+}
+.nexus-avatar img{
+  width:100%;height:100%;border-radius:50%;
+  border:2px solid rgba(0,255,200,.5);
+}
+.nexus-title{
+  font-family:var(--font-primary);font-size:1.4rem;
+  background:linear-gradient(90deg,var(--core-purple),var(--plasma-pink),var(--cyber-teal));
+  -webkit-background-clip:text;color:transparent;
+  text-align:center;margin-bottom:5px;
+}
+.nexus-subtitle{text-align:center;font-size:12px;opacity:.75;margin-bottom:15px}
+.quantum-btn{
+  width:100%;padding:10px;border:none;border-radius:10px;
+  background:linear-gradient(45deg,var(--core-purple),var(--plasma-pink));
+  color:#fff;font-family:var(--font-primary);
+  cursor:pointer;margin-top:10px;font-size:14px;transition:.3s;
+}
+.quantum-btn:hover{background:linear-gradient(45deg,#9d4eff,#ff33ff)}
+.module-panel{display:none}
+.module-grid{display:flex;flex-direction:column;gap:10px;margin-top:18px}
+.module-item{
+  display:flex;justify-content:space-between;align-items:center;
+  background:rgba(255,255,255,.08);padding:10px;border-radius:10px;
+}
+.quantum-switch{position:relative;width:38px;height:18px}
+.quantum-switch input{opacity:0}
+.quantum-slider{position:absolute;inset:0;background:#444;border-radius:20px;transition:.4s}
+.quantum-slider:before{
+  content:"";position:absolute;height:12px;width:12px;left:3px;bottom:3px;
+  background:white;border-radius:50%;transition:.4s;
+}
+input:checked + .quantum-slider{
+  background:linear-gradient(90deg,var(--core-purple),var(--plasma-pink));
+}
+input:checked + .quantum-slider:before{transform:translateX(20px)}
+.active-counter{
+  display:flex;justify-content:space-between;margin-top:15px;
+  padding:10px 15px;background:rgba(10,0,26,.4);border-radius:12px;font-size:14px;
+}
+.counter-value{font-family:var(--font-primary);color:var(--cyber-teal);font-weight:bold}
+@keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}
+
+/* ===== EXPIRED CINEMATIC ===== */
+#expiredPage{
+  position:fixed;inset:0;
+  background:
+    radial-gradient(circle at center, rgba(138,43,226,.35), transparent 60%),
+    radial-gradient(circle at top, rgba(255,0,255,.25), transparent 55%),
+    linear-gradient(135deg,#04000a,#120020,#04000a);
+  display:none;justify-content:center;align-items:center;
+  z-index:9999;
+}
+.expired-core{
+  padding:45px 35px;border-radius:22px;
+  background:rgba(10,0,30,.75);
+  border:1px solid rgba(255,0,255,.6);
+  box-shadow:
+    0 0 40px rgba(255,0,255,.4),
+    0 0 80px rgba(138,43,226,.4),
+    inset 0 0 25px rgba(255,0,255,.2);
+  backdrop-filter:blur(10px);
+  animation:zoomPulse 1s ease;
+  text-align:center;
+}
+@keyframes zoomPulse{
+  0%{transform:scale(.7);opacity:0}
+  60%{transform:scale(1.05);opacity:1}
+  100%{transform:scale(1)}
+}
+.expired-icon{
+  font-size:55px;margin-bottom:15px;color:#ff00ff;
+  text-shadow:0 0 15px #ff00ff,0 0 30px #8A2BE2;
+}
+.expired-text{
+  font-family:var(--font-primary);font-size:1.2rem;line-height:1.6;
+  background:linear-gradient(90deg,#ff2fff,#ff00ff,#00fff0);
+  -webkit-background-clip:text;color:transparent;
+}
+.expired-sub{
+  margin-top:15px;font-size:11px;letter-spacing:2px;color:#aaa;opacity:.7;
+}
+.expired-btn{
+  margin-top:25px;padding:12px 28px;border:none;border-radius:30px;
+  font-family:var(--font-primary);cursor:pointer;
+  background:linear-gradient(45deg,#ff00ff,#8A2BE2);
+  color:white;
+  box-shadow:0 0 15px rgba(255,0,255,.6),0 0 30px rgba(138,43,226,.6);
+  transition:.3s;
+}
+.expired-btn:hover{transform:scale(1.08)}
+</style>
+</head>
+
+<body>
+
+<div id="quantum-field"></div>
+<div id="nexus-grid"></div>
+<canvas id="particles"></canvas>
+
+<div class="nexus-container">
+
+<!-- LOGIN -->
+<div class="quantum-card" id="loginCard">
+  <div class="profile-nexus">
+    <div class="nexus-avatar">
+      <img src="profile.jpg">
+    </div>
+  </div>
+
+  <h2 class="nexus-title">Zyrex Panel</h2>
+  <div class="nexus-subtitle">Ikuti Saluran Sebelum Menggunakan Panel</div>
+
+  <button class="quantum-btn" id="waBtn"><i class="fab fa-whatsapp"></i> Join WhatsApp Channel</button>
+  <button class="quantum-btn" id="tgBtn"><i class="fab fa-telegram"></i> Join Telegram Channel</button>
+
+  <button class="quantum-btn" id="unlockBtn" style="opacity:.4;cursor:not-allowed;">
+    <i class="fas fa-lock"></i> Login
+  </button>
+</div>
+
+<!-- PANEL -->
+<div class="quantum-card module-panel" id="panelCard">
+  <div class="profile-nexus">
+    <div class="nexus-avatar">
+      <img src="profile.jpg">
+    </div>
+  </div>
+
+  <h2 class="nexus-title">Zyrex Panel</h2>
+
+  <div class="module-grid">
+    <div class="module-item"><span>Aimbot Head 💀</span>
+      <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>
+    </div>
+    <div class="module-item"><span>Aim Body (Badan Hs) ☠️</span>
+      <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>
+    </div>
+    <div class="module-item"><span>Hologram All Character 👾</span>
+      <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>
+    </div>
+    <div class="module-item"><span>Esp Line & Box 👺</span>
+      <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>
+    </div>
+        <div class="module-item"><span>Auto Aim AWM 👽</span>
+      <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>
+  </div>
+
+  <div class="active-counter">
+    <span>Active Modules:</span>
+    <span class="counter-value" id="activeCount">0</span>
+  </div>
+</div>
+
+</div>
+
+<!-- EXPIRED -->
+<div id="expiredPage">
+  <div class="expired-core">
+    <div class="expired-icon"><i class="fas fa-ban"></i></div>
+    <div class="expired-text">
+      Durasi Panel Gratis Habis<br><br>
+      Beli Lah Cuman 100k Permanen<br>
+      Masa Ga Mampu?
+    </div>
+    <div class="expired-sub">ACCESS DENIED • LICENSE REQUIRED</div>
+    <button class="expired-btn" onclick="goToWA()">Ok</button>
+  </div>
+</div>
+
+<script>
+// ===== PARTICLES =====
+const canvas=document.getElementById('particles');
+const ctx=canvas.getContext('2d');
+let particles=[];
+function resize(){canvas.width=innerWidth;canvas.height=innerHeight}
+function initParticles(){
+  particles=[];
+  for(let i=0;i<80;i++){
+    particles.push({x:Math.random()*canvas.width,y:Math.random()*canvas.height,
+    vx:(Math.random()-.5)*.6,vy:(Math.random()-.5)*.6,r:Math.random()*2+1});
+  }
+}
+function animate(){
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  particles.forEach(p=>{
+    p.x+=p.vx;p.y+=p.vy;
+    if(p.x<0||p.x>canvas.width)p.vx*=-1;
+    if(p.y<0||p.y>canvas.height)p.vy*=-1;
+    ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
+    ctx.fillStyle="rgba(138,43,226,.8)";ctx.fill();
+  });
+  requestAnimationFrame(animate);
+}
+resize();initParticles();animate();
+addEventListener('resize',resize);
+
+// ===== LINKS =====
+const whatsappLink="https://whatsapp.com/channel/0029VaPhjdlAjPXT6MFkR60s";
+const telegramLink="https://t.me/TheZyrex777";
+
+// ===== SUB2UNLOCK =====
+let waDone=false,tgDone=false;
+const waBtn=document.getElementById("waBtn");
+const tgBtn=document.getElementById("tgBtn");
+const unlockBtn=document.getElementById("unlockBtn");
+
+function checkUnlock(){
+  if(waDone && tgDone){
+    unlockBtn.style.opacity="1";
+    unlockBtn.style.cursor="pointer";
+    unlockBtn.innerHTML='<i class="fas fa-unlock"></i> Login';
+  }
+}
+
+waBtn.onclick=()=>{
+  if(waDone) return;
+  waDone=true;
+  waBtn.innerHTML='<i class="fas fa-check"></i> WhatsApp Joined';
+  waBtn.style.background="linear-gradient(45deg,#00FF9D,#00cfa0)";
+  checkUnlock();
+  setTimeout(()=>{window.open(whatsappLink,"_blank")},500);
+};
+
+tgBtn.onclick=()=>{
+  if(tgDone) return;
+  tgDone=true;
+  tgBtn.innerHTML='<i class="fas fa-check"></i> Telegram Joined';
+  tgBtn.style.background="linear-gradient(45deg,#00FFF0,#00bcd4)";
+  checkUnlock();
+  setTimeout(()=>{window.open(telegramLink,"_blank")},500);
+};
+
+unlockBtn.onclick=()=>{
+  if(waDone && tgDone){
+    document.getElementById('loginCard').style.display='none';
+    document.getElementById('panelCard').style.display='block';
+  }
+};
+
+// ===== EXPIRED LOGIC =====
+document.querySelectorAll('.module-toggle').forEach(t=>{
+  t.addEventListener('change',()=>{
+    if(t.checked){
+      setTimeout(()=>{
+        document.getElementById('expiredPage').style.display='flex';
+      },500);
+    }
+  });
+});
+
+// ===== OK BUTTON FUNCTION =====
+function goToWA(){
+  window.open(whatsappLink,"_blank");
+}
+</script>
+
+</body>
+</html>
