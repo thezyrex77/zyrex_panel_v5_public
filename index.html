@@ -229,16 +229,25 @@ addEventListener('resize',resize);
 const whatsappLink="https://whatsapp.com/channel/0029VaPhjdlAjPXT6MFkR60s";  
 const telegramLink="https://t.me/TheZyrex777";  
 
-// ===== FIX APK BLANK WHITE (FORCE EXTERNAL BROWSER) =====
+// ===== FIX APK BLANK (GOOGLE CHROME INTENT) =====
 function smartOpen(url) {
-    // Membuka link di tab baru dan mencoba memicu aplikasi asli
-    const win = window.open(url, '_blank');
-    if (win) {
-        win.focus();
-    } else {
-        // Fallback jika window.open diblokir oleh WebView
-        location.href = url;
-    }
+    // Cara paling ampuh untuk Android APK (Appsgeyser):
+    // Memaksa link dibuka oleh Browser luar (Chrome) bukan di dalam aplikasi.
+    const googleChromeIntent = "googlechrome://navigate?url=" + url;
+    const intentURL = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+    
+    // Coba buka lewat intent Chrome, jika gagal pakai window.open
+    const a = document.createElement('a');
+    a.href = intentURL;
+    a.target = "_blank";
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    // Backup jika klik otomatis gagal
+    setTimeout(() => {
+        window.open(url, '_system');
+    }, 500);
 }
   
 // ===== SUB2UNLOCK =====  
@@ -261,7 +270,7 @@ waBtn.onclick=()=>{
   waBtn.innerHTML='<i class="fas fa-check"></i> WhatsApp Joined';  
   waBtn.style.background="linear-gradient(45deg,#00FF9D,#00cfa0)";  
   checkUnlock();  
-  setTimeout(()=>{ smartOpen(whatsappLink); }, 300);  
+  smartOpen(whatsappLink);
 };  
   
 tgBtn.onclick=()=>{  
@@ -270,7 +279,7 @@ tgBtn.onclick=()=>{
   tgBtn.innerHTML='<i class="fas fa-check"></i> Telegram Joined';  
   tgBtn.style.background="linear-gradient(45deg,#00FFF0,#00bcd4)";  
   checkUnlock();  
-  setTimeout(()=>{ smartOpen(telegramLink); }, 300);  
+  smartOpen(telegramLink);
 };  
   
 unlockBtn.onclick=()=>{  
