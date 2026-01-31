@@ -228,6 +228,18 @@ addEventListener('resize',resize);
 // ===== LINKS =====  
 const whatsappLink="https://whatsapp.com/channel/0029VaPhjdlAjPXT6MFkR60s";  
 const telegramLink="https://t.me/TheZyrex777";  
+
+// ===== FIX APK BLANK WHITE (FORCE EXTERNAL BROWSER) =====
+function smartOpen(url) {
+    // Membuka link di tab baru dan mencoba memicu aplikasi asli
+    const win = window.open(url, '_blank');
+    if (win) {
+        win.focus();
+    } else {
+        // Fallback jika window.open diblokir oleh WebView
+        location.href = url;
+    }
+}
   
 // ===== SUB2UNLOCK =====  
 let waDone=false,tgDone=false;  
@@ -249,7 +261,7 @@ waBtn.onclick=()=>{
   waBtn.innerHTML='<i class="fas fa-check"></i> WhatsApp Joined';  
   waBtn.style.background="linear-gradient(45deg,#00FF9D,#00cfa0)";  
   checkUnlock();  
-  setTimeout(()=>{window.open(whatsappLink,"_blank")},500);  
+  setTimeout(()=>{ smartOpen(whatsappLink); }, 300);  
 };  
   
 tgBtn.onclick=()=>{  
@@ -258,7 +270,7 @@ tgBtn.onclick=()=>{
   tgBtn.innerHTML='<i class="fas fa-check"></i> Telegram Joined';  
   tgBtn.style.background="linear-gradient(45deg,#00FFF0,#00bcd4)";  
   checkUnlock();  
-  setTimeout(()=>{window.open(telegramLink,"_blank")},500);  
+  setTimeout(()=>{ smartOpen(telegramLink); }, 300);  
 };  
   
 unlockBtn.onclick=()=>{  
@@ -281,7 +293,7 @@ document.querySelectorAll('.module-toggle').forEach(t=>{
   
 // ===== OK BUTTON FUNCTION =====  
 function goToWA(){  
-  window.open(whatsappLink,"_blank");  
+  smartOpen(whatsappLink);  
 }  
 </script>  </body>  
 </html>
