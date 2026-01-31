@@ -60,13 +60,17 @@ canvas{position:fixed;inset:0;z-index:-1}
   text-align:center;margin-bottom:5px;  
 }  
 .nexus-subtitle{text-align:center;font-size:12px;opacity:.75;margin-bottom:15px}  
+  
+/* Link Style as Button */
 .quantum-btn{  
+  display: block; text-decoration: none; text-align: center;
   width:100%;padding:10px;border:none;border-radius:10px;  
   background:linear-gradient(45deg,var(--core-purple),var(--plasma-pink));  
   color:#fff;font-family:var(--font-primary);  
   cursor:pointer;margin-top:10px;font-size:14px;transition:.3s;  
 }  
 .quantum-btn:hover{background:linear-gradient(45deg,#9d4eff,#ff33ff)}  
+
 .module-panel{display:none}  
 .module-grid{display:flex;flex-direction:column;gap:10px;margin-top:18px}  
 .module-item{  
@@ -94,7 +98,7 @@ input:checked + .quantum-slider:before{transform:translateX(20px)}
 #expiredPage{  
   position:fixed;inset:0;  
   background:#05000a;  
-  display:none;flex-direction:column;justify-content:center;align-items:center;  
+  display:none;flex-direction:column;justify(content):center;align-items:center;  
   z-index:10000;  
 }  
 .expired-overlay{  
@@ -112,11 +116,6 @@ input:checked + .quantum-slider:before{transform:translateX(20px)}
   text-align:center;  
   box-shadow: 0 0 50px rgba(255,0,85,0.4), inset 0 0 20px rgba(255,0,85,0.2);  
   overflow:hidden;  
-}  
-.expired-box::before{  
-  content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;  
-  background: repeating-linear-gradient(0deg, transparent, transparent 2px, rgba(255,0,85,0.05) 3px, transparent 3px);  
-  pointer-events:none;  
 }  
 .warning-icon{  
   font-size:70px;color:#ff0055;  
@@ -140,6 +139,7 @@ input:checked + .quantum-slider:before{transform:translateX(20px)}
   color:#fff;font-family:var(--font-primary);font-size:18px;margin-bottom:20px;  
 }  
 .buy-btn{  
+  display:block; text-decoration:none;
   width:100%;padding:15px;border:none;border-radius:50px;  
   background:linear-gradient(90deg, #ff0055, #8A2BE2);  
   color:white;font-family:var(--font-primary);font-weight:bold;  
@@ -147,29 +147,39 @@ input:checked + .quantum-slider:before{transform:translateX(20px)}
   box-shadow: 0 0 20px rgba(255,0,85,0.5);  
   transition: 0.3s;  
 }  
-.buy-btn:active{transform:scale(0.95)}  
   
 @keyframes fadeIn{from{opacity:0;transform:translateY(15px)}to{opacity:1;transform:translateY(0)}}  
 </style>  </head>  <body>  <div id="quantum-field"></div>  
 <div id="nexus-grid"></div>  
-<canvas id="particles"></canvas>  <div class="nexus-container">  <div class="quantum-card" id="loginCard">  
+<canvas id="particles"></canvas>  <div class="nexus-container">  
+
+<div class="quantum-card" id="loginCard">  
   <div class="profile-nexus">  
     <div class="nexus-avatar">  
       <img src="profile.jpg">  
     </div>  
-  </div>    <h2 class="nexus-title">Zyrex Panel</h2>  
-  <div class="nexus-subtitle">Ikuti Saluran Sebelum Menggunakan Panel</div>  <button class="quantum-btn" id="waBtn"><i class="fab fa-whatsapp"></i> Join WhatsApp Channel</button>
-<button class="quantum-btn" id="tgBtn"><i class="fab fa-telegram"></i> Join Telegram Channel</button>
+  </div>    
+  <h2 class="nexus-title">Zyrex Panel</h2>  
+  <div class="nexus-subtitle">Ikuti Saluran Sebelum Menggunakan Panel</div>  
+
+  <a href="https://whatsapp.com/channel/0029VaPhjdlAjPXT6MFkR60s" target="_blank" class="quantum-btn" id="waBtn" onclick="markDone('wa')">
+    <i class="fab fa-whatsapp"></i> Join WhatsApp Channel
+  </a>
+  <a href="https://t.me/TheZyrex777" target="_blank" class="quantum-btn" id="tgBtn" onclick="markDone('tg')">
+    <i class="fab fa-telegram"></i> Join Telegram Channel
+  </a>
 
   <button class="quantum-btn" id="unlockBtn" style="opacity:.4;cursor:not-allowed;">  
     <i class="fas fa-lock"></i> Login  
   </button>  
-</div>  <div class="quantum-card module-panel" id="panelCard">  
+</div>  
+
+<div class="quantum-card module-panel" id="panelCard">  
   <div class="profile-nexus">  
-    <div class="nexus-avatar">  
-      <img src="profile.jpg">  
-    </div>  
-  </div>    <h2 class="nexus-title">Zyrex Panel</h2>    <div class="module-grid">  
+    <div class="nexus-avatar"><img src="profile.jpg"></div>  
+  </div>    
+  <h2 class="nexus-title">Zyrex Panel</h2>    
+  <div class="module-grid">  
     <div class="module-item"><span>Aimbot Head 💀</span>  
       <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>  
     </div>  
@@ -182,24 +192,32 @@ input:checked + .quantum-slider:before{transform:translateX(20px)}
     <div class="module-item"><span>Esp Line & Box 👺</span>  
       <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>  
     </div>  
-        <div class="module-item"><span>Auto Aim AWM 👽</span>  
+    <div class="module-item"><span>Auto Aim AWM 👽</span>  
       <label class="quantum-switch"><input type="checkbox" class="module-toggle"><span class="quantum-slider"></span></label>  
-  </div>    <div class="active-counter">  
-    <span>Active Modules:</span>  
-    <span class="counter-value" id="activeCount">0</span>  
+    </div>    
+    <div class="active-counter">  
+      <span>Active Modules:</span>  
+      <span class="counter-value" id="activeCount">0</span>  
+    </div>  
   </div>  
-</div>  </div>  <div id="expiredPage">  
+</div>  
+
+<div id="expiredPage">  
   <div class="expired-overlay"></div>
   <div class="expired-box">
     <div class="warning-icon"><i class="fas fa-shield-virus"></i></div>
     <h2 class="expired-title">Access Ditolak</h2>
-    <p class="expired-desc">Masa berlaku panel gratis kamu telah berakhir. Silakan upgrade ke versi permanen untuk akses tanpa batas.</p>
+    <p class="expired-desc">Masa berlaku panel gratis kamu telah berakhir. Silakan upgrade ke versi permanen.</p>
     <div class="price-tag">IDR 100,000</div>
-    <button class="buy-btn" onclick="goToWA()">Beli Panel Sekarang</button>
-    <p style="margin-top:15px; font-size:10px; color:#555; letter-spacing:1px;">ZYREX-SECURITY-SYSTEM-V3</p>
+    <a href="https://whatsapp.com/channel/0029VaPhjdlAjPXT6MFkR60s" target="_blank" class="buy-btn">Beli Panel Sekarang</a>
+    <p style="margin-top:15px; font-size:10px; color:#555;">ZYREX-SECURITY-SYSTEM-V3</p>
   </div>
-</div>  <script>  
-// ===== PARTICLES =====  
+</div>
+
+</div>  
+
+<script>  
+// ===== PARTICLES ENGINE =====  
 const canvas=document.getElementById('particles');  
 const ctx=canvas.getContext('2d');  
 let particles=[];  
@@ -225,71 +243,39 @@ function animate(){
 resize();initParticles();animate();  
 addEventListener('resize',resize);  
   
-// ===== LINKS =====  
-const whatsappLink="https://whatsapp.com/channel/0029VaPhjdlAjPXT6MFkR60s";  
-const telegramLink="https://t.me/TheZyrex777";  
+// ===== LOGIC UNLOCK =====  
+let waDone=false, tgDone=false;  
 
-// ===== FIX APK BLANK (GOOGLE CHROME INTENT) =====
-function smartOpen(url) {
-    // Cara paling ampuh untuk Android APK (Appsgeyser):
-    // Memaksa link dibuka oleh Browser luar (Chrome) bukan di dalam aplikasi.
-    const googleChromeIntent = "googlechrome://navigate?url=" + url;
-    const intentURL = "intent://" + url.replace(/^https?:\/\//, "") + "#Intent;scheme=https;package=com.android.chrome;end";
+function markDone(type) {
+    if(type === 'wa') {
+        waDone = true;
+        const btn = document.getElementById('waBtn');
+        btn.innerHTML = '<i class="fas fa-check"></i> WhatsApp Joined';
+        btn.style.background = "linear-gradient(45deg,#00FF9D,#00cfa0)";
+    }
+    if(type === 'tg') {
+        tgDone = true;
+        const btn = document.getElementById('tgBtn');
+        btn.innerHTML = '<i class="fas fa-check"></i> Telegram Joined';
+        btn.style.background = "linear-gradient(45deg,#00FFF0,#00bcd4)";
+    }
     
-    // Coba buka lewat intent Chrome, jika gagal pakai window.open
-    const a = document.createElement('a');
-    a.href = intentURL;
-    a.target = "_blank";
-    document.body.appendChild(a);
-    a.click();
-    document.body.removeChild(a);
-    
-    // Backup jika klik otomatis gagal
-    setTimeout(() => {
-        window.open(url, '_system');
-    }, 500);
+    if(waDone && tgDone) {
+        const unlock = document.getElementById('unlockBtn');
+        unlock.style.opacity = "1";
+        unlock.style.cursor = "pointer";
+        unlock.innerHTML = '<i class="fas fa-unlock"></i> Login';
+    }
 }
-  
-// ===== SUB2UNLOCK =====  
-let waDone=false,tgDone=false;  
-const waBtn=document.getElementById("waBtn");  
-const tgBtn=document.getElementById("tgBtn");  
-const unlockBtn=document.getElementById("unlockBtn");  
-  
-function checkUnlock(){  
-  if(waDone && tgDone){  
-    unlockBtn.style.opacity="1";  
-    unlockBtn.style.cursor="pointer";  
-    unlockBtn.innerHTML='<i class="fas fa-unlock"></i> Login';  
-  }  
-}  
-  
-waBtn.onclick=()=>{  
-  if(waDone) return;  
-  waDone=true;  
-  waBtn.innerHTML='<i class="fas fa-check"></i> WhatsApp Joined';  
-  waBtn.style.background="linear-gradient(45deg,#00FF9D,#00cfa0)";  
-  checkUnlock();  
-  smartOpen(whatsappLink);
-};  
-  
-tgBtn.onclick=()=>{  
-  if(tgDone) return;  
-  tgDone=true;  
-  tgBtn.innerHTML='<i class="fas fa-check"></i> Telegram Joined';  
-  tgBtn.style.background="linear-gradient(45deg,#00FFF0,#00bcd4)";  
-  checkUnlock();  
-  smartOpen(telegramLink);
-};  
-  
-unlockBtn.onclick=()=>{  
-  if(waDone && tgDone){  
-    document.getElementById('loginCard').style.display='none';  
-    document.getElementById('panelCard').style.display='block';  
-  }  
-};  
-  
-// ===== EXPIRED LOGIC =====  
+
+document.getElementById('unlockBtn').onclick = function() {
+    if(waDone && tgDone) {
+        document.getElementById('loginCard').style.display = 'none';
+        document.getElementById('panelCard').style.display = 'block';
+    }
+};
+
+// ===== EXPIRED TRIGGER =====  
 document.querySelectorAll('.module-toggle').forEach(t=>{  
   t.addEventListener('change',()=>{  
     if(t.checked){  
@@ -299,10 +285,6 @@ document.querySelectorAll('.module-toggle').forEach(t=>{
     }  
   });  
 });  
-  
-// ===== OK BUTTON FUNCTION =====  
-function goToWA(){  
-  smartOpen(whatsappLink);  
-}  
-</script>  </body>  
+</script>  
+</body>  
 </html>
